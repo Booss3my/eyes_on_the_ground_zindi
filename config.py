@@ -24,3 +24,6 @@ VAL_TFS = A.Compose([
 
 BATCH_SIZE = 32
 NUM_DL_WORKERS = 0 
+LR = 1e-3
+NUM_EPOCHS = 10
+
