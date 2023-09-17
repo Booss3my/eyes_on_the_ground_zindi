@@ -46,5 +46,5 @@ for i in range(NUM_EPOCHS):
         optimizer.zero_grad()
         running_loss+=loss
     
-    wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
-    print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {running_loss/len(train_dataloader)}')
+    wandb.log({"train loss": 100*running_loss/len(train_dataloader), "epoch": i})
+    print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {100*running_loss/len(train_dataloader)}')
