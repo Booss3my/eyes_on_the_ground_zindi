@@ -8,4 +8,9 @@ base_model = torch.nn.DataParallel(base_model, device_ids=[0, 1])
 for param in base_model.parameters():
     param.requires_grad = False
 
+optimisable_params =  base_model.module.classifier.parameters()
+
+for param in optimisable_params:
+    param.requires_grad = True
+
 base_model.to(DEVICE)

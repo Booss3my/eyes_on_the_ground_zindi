@@ -4,7 +4,7 @@ import os
 from dataset.data import eog_Dataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
-from model import base_model
+from model import *
 import torch
 from torch import nn
 from tqdm import tqdm
@@ -28,7 +28,7 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(lr=LR,params=base_model.parameters())
+optimizer = torch.optim.Adam(lr=LR,params=optimisable_params)
 #scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 wandb.login(key=WANDB_KEY)
