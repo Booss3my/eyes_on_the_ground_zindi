@@ -41,7 +41,7 @@ for i in range(NUM_EPOCHS):
         y = base_model(images.to(DEVICE)).squeeze()
         loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
         loss.backward()
-        nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
+        # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
         optimizer.step()
         optimizer.zero_grad()
         running_loss+=loss
