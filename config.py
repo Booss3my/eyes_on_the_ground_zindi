@@ -1,6 +1,7 @@
 import albumentations as A 
 from albumentations.pytorch import ToTensorV2
 import argparse
+import torch 
 
 parser = argparse.ArgumentParser(description="Configurations for my project")
 
@@ -39,3 +40,5 @@ VAL_TFS = A.Compose([
     A.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)),
     ToTensorV2(transpose_mask=True)
 ])
+
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
