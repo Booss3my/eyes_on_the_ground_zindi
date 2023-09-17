@@ -21,7 +21,7 @@ train_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in train_im]
 val_image_paths =  [os.path.join(IMAGE_PATH,filename) for filename in val_im]
 
 train_dataset = eog_Dataset(train_image_paths, labels = train_lab.values,tfs=TRAIN_TFS)
-val_dataset = eog_Dataset(val_image_paths, labels = val_lab.values,tfs=VAL_TFS)
+val_dataset = eog_Dataset(val_image_paths, labels = val_lab.values,tfs=TRAIN_TFS)
 
 train_dataloader = DataLoader(train_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
 val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
