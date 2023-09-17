@@ -11,6 +11,7 @@ parser.add_argument('--BATCH_SIZE', type=int, default=32, help="The batch size t
 parser.add_argument('--LR', type=float, default=1e-3, help="The learning rate to be used during training")
 parser.add_argument('--NUM_EPOCHS', type=int, default=10, help="The number of epochs to train for")
 parser.add_argument('--NUM_DL_WORKERS', type=int, default=1, help="Num workers for dataloader")
+parser.add_argument('--SAMPLE_FRAC', type=float, default=1, help="fraction of data to keep")
 
 args = parser.parse_args()
 
@@ -21,6 +22,8 @@ BATCH_SIZE = args.BATCH_SIZE
 LR = args.LR
 NUM_EPOCHS = args.NUM_EPOCHS
 NUM_DL_WORKERS=args.NUM_DL_WORKERS
+SAMPLE_FRAC = args.SAMPLE_FRAC
+
 
 TRAIN_TFS = A.Compose([
     A.Transpose(),

@@ -9,7 +9,7 @@ import torch
 from torch import nn
 from tqdm import tqdm
 
-data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
+data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv")).sample(frac=SAMPLE_FRAC)
 
 train_im, val_im, train_lab, val_lab =train_test_split(data.filename,data.extent,test_size=0.33,random_state=10,shuffle=True)
 
