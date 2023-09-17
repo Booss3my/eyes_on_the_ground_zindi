@@ -34,4 +34,4 @@ class eog_Dataset(Dataset):
 
         if self.labels is None:
             return out
-        return out, torch.tensor(self.labels[index],dtype=torch.float32)
+        return out, torch.tensor(self.labels[index]/100,dtype=torch.float32)
