@@ -36,6 +36,7 @@ config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_d
 wandb.init(project="eyes_on_the_ground", config=config)
 wandb.watch(base_model.module.classifier, log_freq=1)
 for i in range(NUM_EPOCHS):
+    #train
     running_loss = 0    
     for images,labels in tqdm(train_dataloader,f'Iterating through {len(train_dataloader)} batches'):   
         y = base_model(images.to(DEVICE)).squeeze()
@@ -48,4 +49,17 @@ for i in range(NUM_EPOCHS):
     
     wandb.log({"train loss": 100*running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {100*running_loss/len(train_dataloader)}')
+    
+    #val
+    if i%4==3: 
+        running_loss=0
+        for images,labels in tqdm(val_dataloader,f'Iterating through {len(val_dataloader)} batches'):
+            with torch.no_grad():
+                 y = base_model(images.to(DEVICE)).squeeze()
+                 loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
+                 running_loss+=loss
+        wandb.log({"val loss": 100*running_loss/len(train_dataloader), "epoch": i})
+        print(f'epoch {i}/{NUM_EPOCHS}: Validation RMSE {100*running_loss/len(train_dataloader)}')
+
+
     scheduler.step()
