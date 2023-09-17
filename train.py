@@ -29,7 +29,7 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
-scheduler = scheduler = torch.optim.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
 config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC)
