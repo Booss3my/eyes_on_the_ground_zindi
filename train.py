@@ -28,7 +28,7 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(lr=LR,params=optimisable_params)
+optimizer = torch.optim.Adam(lr=LR,params=base_model.module.classifier.parameters())
 #scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 wandb.login(key=WANDB_KEY)
