@@ -29,7 +29,7 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
-#scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda)
+scheduler = scheduler = torch.optim.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
 config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC)
@@ -48,3 +48,4 @@ for i in range(NUM_EPOCHS):
     
     wandb.log({"train loss": 100*running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {100*running_loss/len(train_dataloader)}')
+    scheduler.step()

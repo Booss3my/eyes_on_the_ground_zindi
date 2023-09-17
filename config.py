@@ -14,6 +14,8 @@ parser.add_argument('--NUM_EPOCHS', type=int, default=10, help="The number of ep
 parser.add_argument('--NUM_DL_WORKERS', type=int, default=0, help="Num workers for dataloader")
 parser.add_argument('--SAMPLE_FRAC', type=float, default=1.0, help="fraction of data to keep")
 parser.add_argument('--WANDB_KEY', type=str, help="API key for wandb")
+parser.add_argument('--SCHEDULER_STEP', type=int, default=10, help="steplr scheduler step param")
+parser.add_argument('--SCHEDULER_GAMMA', type=float, default=0.3, help="Gamma scheduler")
 
 args = parser.parse_args()
 
@@ -26,7 +28,8 @@ NUM_EPOCHS = args.NUM_EPOCHS
 NUM_DL_WORKERS=args.NUM_DL_WORKERS
 SAMPLE_FRAC = args.SAMPLE_FRAC
 WANDB_KEY=args.WANDB_KEY
-
+SCHEDULER_STEP = args.SCHEDULER_STEP
+SCHEDULER_GAMMA = args.SCHEDULER_GAMMA
 
 TRAIN_TFS = A.Compose([
     A.Transpose(),
