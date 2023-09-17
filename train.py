@@ -32,7 +32,7 @@ optimizer = torch.optim.Adam(lr=LR,params=base_model.parameters())
 for i in range(NUM_EPOCHS):
     running_loss = 0    
     for images,labels in tqdm(train_dataloader,f'Iterating through {len(train_dataloader)} batches'):   
-        y = base_model(images)
+        y = base_model(images).squeeze()
         loss  = criterion(y,labels)
         loss.backward()
         optimizer.step()

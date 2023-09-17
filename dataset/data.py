@@ -4,6 +4,7 @@ import albumentations as A
 from torch.utils.data import Dataset
 import numpy as np
 from PIL import Image
+import torch
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import * 
 
@@ -33,4 +34,4 @@ class eog_Dataset(Dataset):
 
         if self.labels is None:
             return out
-        return out, self.labels[index]
+        return out, torch.tensor(self.labels[index],dtype=torch.float32)
