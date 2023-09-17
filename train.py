@@ -37,9 +37,10 @@ for i in range(NUM_EPOCHS):
     running_loss = 0    
     for images,labels in tqdm(train_dataloader,f'Iterating through {len(train_dataloader)} batches'):   
         y = base_model(images.to(DEVICE)).squeeze()
-        loss  = criterion(y,labels.to(DEVICE))
+        loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
         loss.backward()
+        nn.utils.clip_grad_norm_(base_model.parameters(), 1.0)
         optimizer.step()
         optimizer.zero_grad()
         running_loss+=loss
-    print(f'epoch {i}/{NUM_EPOCHS}: Training MSE {running_loss/len(train_dataloader)}')
+    print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {running_loss/len(train_dataloader)}')
