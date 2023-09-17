@@ -16,6 +16,7 @@ parser.add_argument('--SAMPLE_FRAC', type=float, default=1.0, help="fraction of 
 parser.add_argument('--WANDB_KEY', type=str, help="API key for wandb")
 parser.add_argument('--SCHEDULER_STEP', type=int, default=10, help="steplr scheduler step param")
 parser.add_argument('--SCHEDULER_GAMMA', type=float, default=0.3, help="Gamma scheduler")
+parser.add_argument('--MODEL_SAVE_PATH', type=str, default="best_model.ckpt", help="model save path")
 
 args = parser.parse_args()
 
@@ -30,6 +31,7 @@ SAMPLE_FRAC = args.SAMPLE_FRAC
 WANDB_KEY=args.WANDB_KEY
 SCHEDULER_STEP = args.SCHEDULER_STEP
 SCHEDULER_GAMMA = args.SCHEDULER_GAMMA
+MODEL_SAVE_PATH = args.MODEL_SAVE_PATH
 
 TRAIN_TFS = A.Compose([
     A.Transpose(),
@@ -45,3 +47,6 @@ VAL_TFS = A.Compose([
 ])
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+
+ 
