@@ -28,7 +28,7 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(lr=LR,params=base_model.module.classifier.parameters())
+optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 #scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 wandb.login(key=WANDB_KEY)
@@ -41,7 +41,7 @@ for i in range(NUM_EPOCHS):
         y = base_model(images.to(DEVICE)).squeeze()
         loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
         loss.backward()
-        nn.utils.clip_grad_norm_(base_model.parameters(), 0.5)
+        nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
         optimizer.step()
         optimizer.zero_grad()
         running_loss+=loss
