@@ -32,7 +32,7 @@ optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
-config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC)
+config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size)
 wandb.init(project="eyes_on_the_ground", config=config)
 
 
