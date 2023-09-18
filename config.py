@@ -22,6 +22,7 @@ parser.add_argument('--IM_SIZE', type=int, default=240, help="image size")
 #predict only parameters
 parser.add_argument('--model_path', type=str, help="Path to model")  
 parser.add_argument('--submission_path', type=str, help="Path to submission file")
+parser.add_argument('--model_name', type=str,default='efficientnet_b1_pruned', help="Model name")
 
 args = parser.parse_args()
 
@@ -40,6 +41,7 @@ MODEL_SAVE_PATH = args.MODEL_SAVE_PATH
 IM_SIZE = args.IM_SIZE
 model_path = args.model_path
 submission_path = args.submission_path
+model_name = args.model_name
 
 TRAIN_TFS = A.Compose([
     A.Transpose(),
