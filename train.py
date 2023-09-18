@@ -45,7 +45,7 @@ for i in range(NUM_EPOCHS):
         loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
         (loss/N_GRAD_CUMUL).backward()
         # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
-        if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1: 
+        if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1 or j==len(train_dataloader)-1: 
             optimizer.step()
             optimizer.zero_grad()
         
