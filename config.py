@@ -17,6 +17,7 @@ parser.add_argument('--WANDB_KEY', type=str, help="API key for wandb")
 parser.add_argument('--SCHEDULER_STEP', type=int, default=10, help="steplr scheduler step param")
 parser.add_argument('--SCHEDULER_GAMMA', type=float, default=0.3, help="Gamma scheduler")
 parser.add_argument('--MODEL_SAVE_PATH', type=str, default="best_model.ckpt", help="model save path")
+parser.add_argument('--IM_SIZE', type=int, default=224, help="image size")
 
 #predict only parameters
 parser.add_argument('--model_path', type=str, help="Path to model")  
@@ -36,6 +37,7 @@ WANDB_KEY=args.WANDB_KEY
 SCHEDULER_STEP = args.SCHEDULER_STEP
 SCHEDULER_GAMMA = args.SCHEDULER_GAMMA
 MODEL_SAVE_PATH = args.MODEL_SAVE_PATH
+IM_SIZE = args.IM_SIZE
 model_path = args.model_path
 submission_path = args.submission_path
 
