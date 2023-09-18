@@ -20,7 +20,7 @@ pred_fnames = submission_file.merge(data, how="inner", on="ID").filename
 pred_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in pred_fnames]
 averaged_output=torch.zeros(len(pred_image_paths)).to(DEVICE)
 for _ in range(5):
-    pred_dataset = eog_Dataset(pred_image_paths,tfs=TRAIN_TFS)
+    pred_dataset = eog_Dataset(pred_image_paths,size=IM_SIZE,tfs=TRAIN_TFS)
     pred_dataloader = DataLoader(pred_dataset,batch_size=BATCH_SIZE,shuffle=False,num_workers=NUM_DL_WORKERS)
 
     pred_iter=iter(pred_dataloader)
