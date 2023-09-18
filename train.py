@@ -40,13 +40,15 @@ best_val_loss = 1e10
 for i in range(NUM_EPOCHS):
     #train
     running_loss = 0    
-    for images,labels in tqdm(train_dataloader,f'Iterating through {len(train_dataloader)} batches'):   
+    for j,(images,labels) in tqdm(enumerate(train_dataloader),f'Iterating through {len(train_dataloader)} batches'):   
         y = base_model(images.to(DEVICE)).squeeze()
         loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
-        loss.backward()
+        (loss/N_GRAD_CUMUL).backward()
         # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
-        optimizer.step()
-        optimizer.zero_grad()
+        if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1: 
+            optimizer.step()
+            optimizer.zero_grad()
+        
         running_loss+=loss
     
     wandb.log({"train loss": 100*running_loss/len(train_dataloader), "epoch": i})
