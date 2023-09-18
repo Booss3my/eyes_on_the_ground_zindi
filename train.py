@@ -4,7 +4,7 @@ import os
 from dataset.data import eog_Dataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
-from model import *
+from models.model import *
 import torch
 from torch import nn
 from tqdm import tqdm
