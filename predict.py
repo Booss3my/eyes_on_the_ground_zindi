@@ -1,5 +1,6 @@
 from dataset.data import eog_Dataset
 from torch.utils.data import DataLoader
+from config import *
 from model import *
 from tqdm import tqdm
 import pandas as pd 
