@@ -9,7 +9,7 @@ import torch
 from torch import nn
 from tqdm import tqdm
 import wandb
-
+from utils import EarlyStopper
 
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
@@ -37,6 +37,7 @@ wandb.init(project="eyes_on_the_ground", config=config)
 
 
 best_val_loss = 1e10
+early_stopper = EarlyStopper(patience=3, min_delta=1)
 for i in range(NUM_EPOCHS):
     #train
     running_loss = 0    
@@ -55,18 +56,21 @@ for i in range(NUM_EPOCHS):
     print(f'epoch {i}/{NUM_EPOCHS}: Training RMSE {100*running_loss/len(train_dataloader)}')
     
     #val
-    if i%4==3: 
-        running_loss=0
+    if i%3==2: 
+        val_running_loss=0
         for images,labels in tqdm(val_dataloader,f'Iterating through {len(val_dataloader)} batches'):
             with torch.no_grad():
                  y = base_model(images.to(DEVICE)).squeeze()
                  loss  = torch.sqrt(criterion(y,labels.to(DEVICE)))
-                 running_loss+=loss
+                 val_running_loss+=loss
         
-        lb_loss = 100*running_loss/len(val_dataloader) 
+        lb_loss = 100*val_running_loss/len(val_dataloader) 
         if lb_loss<best_val_loss:
             torch.save(base_model.module.state_dict(), MODEL_SAVE_PATH)
             best_val_loss = lb_loss
+        
+        if early_stopper.early_stop(100*val_running_loss/len(val_dataloader) ):             
+            break
 
         wandb.log({"val loss": lb_loss, "epoch": i})
         print(f'epoch {i}/{NUM_EPOCHS}: Validation RMSE {lb_loss}')
