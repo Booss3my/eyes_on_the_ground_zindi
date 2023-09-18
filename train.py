@@ -34,7 +34,6 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP,
 wandb.login(key=WANDB_KEY)
 config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC)
 wandb.init(project="eyes_on_the_ground", config=config)
-wandb.watch(base_model.module.classifier, log_freq=1)
 
 
 best_val_loss = 1e10
