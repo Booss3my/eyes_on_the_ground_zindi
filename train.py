@@ -15,7 +15,7 @@ data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10)
 
-train_im, val_im, train_lab, val_lab =train_test_split(data.filename,data.extent,test_size=0.33,random_state=10,shuffle=True)
+train_im, val_im, train_lab, val_lab =train_test_split(data.filename,data.extent,test_size=0.2,random_state=10,shuffle=True)
 
 train_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in train_im]
 val_image_paths =  [os.path.join(IMAGE_PATH,filename) for filename in val_im]
