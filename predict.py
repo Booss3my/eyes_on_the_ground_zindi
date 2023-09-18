@@ -7,7 +7,7 @@ import pandas as pd
 import os
 import torch
 
-data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"test.csv"))
+data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"Test.csv"))
 submission_file= pd.read_csv(os.path.join(DATA_ROOT_PATH,"SampleSubmission.csv"))
 pred_fnames = submission_file.merge(data, how="inner", on="ID").filename
 
