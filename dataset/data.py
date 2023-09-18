@@ -17,7 +17,7 @@ class eog_Dataset(Dataset):
         self.image_paths = image_paths
         self.labels = labels
         self.resize_ts = A.Compose([
-            A.SmallestMaxSize(int(size*1.2), p=1.0),
+            A.SmallestMaxSize(int(size), p=1.0),
             A.CenterCrop(size, size, p=1.0)])
 
 
