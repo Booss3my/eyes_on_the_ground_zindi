@@ -27,7 +27,7 @@ for _ in range(5):
     test_output=torch.tensor([]).to(DEVICE)
     for data in tqdm(pred_iter):
         with torch.no_grad():
-            test_output = torch.cat((test_output,base_model.eval()(data.to(DEVICE))))
+            test_output = torch.cat((test_output,base_model.eval()(data.to(DEVICE)).squeeze()))
     
     averaged_output+=test_output/5
 
