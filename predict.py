@@ -22,7 +22,7 @@ base_model.to(DEVICE)
 
 pred_iter=iter(pred_dataloader)
 test_output=torch.tensor([]).to(DEVICE)
-for i,(data,_) in tqdm(enumerate(pred_iter)):
+for data in tqdm(pred_iter):
     with torch.no_grad():
         test_output = torch.cat((test_output,base_model.eval()(data.to(DEVICE))))
 
