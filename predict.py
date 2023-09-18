@@ -16,8 +16,8 @@ pred_dataset = eog_Dataset(pred_image_paths,tfs=VAL_TFS)
 pred_dataloader = DataLoader(pred_dataset,batch_size=BATCH_SIZE,shuffle=False,num_workers=NUM_DL_WORKERS)
 
 state_dict = torch.load(model_path)
-base_model.load_state_dict(state_dict).to(DEVICE)
-base_model = torch.nn.DataParallel(base_model, device_ids=[0, 1])
+base_model.module.load_state_dict(state_dict).to(DEVICE)
+
 
 pred_iter=iter(pred_dataloader)
 test_output=torch.tensor([]).to(DEVICE)
