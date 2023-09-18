@@ -37,7 +37,7 @@ wandb.init(project="eyes_on_the_ground", config=config)
 
 
 best_val_loss = 1e10
-early_stopper = EarlyStopper(patience=3, min_delta=1)
+early_stopper = EarlyStopper(patience=3, min_delta=0.5)
 for i in range(NUM_EPOCHS):
     #train
     running_loss = 0    
