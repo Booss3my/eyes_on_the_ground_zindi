@@ -8,7 +8,7 @@ class Model(nn.Module):
     def __init__(self,model_name):
         super().__init__()
         self.base = timm.create_model(model_name, pretrained=True)
-        self.base_cfg = model.default_cfg
+        self.base_cfg = self.base.default_cfg
         self.fc = nn.Linear(self.base_cfg["num_classes"],1 ,bias=True)
 
     def forward(self, x):
