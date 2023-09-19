@@ -17,5 +17,13 @@ class Model(nn.Module):
 
 model = Model(model_name)
 input_size = model.base_cfg["input_size"][1]
-base_model = torch.nn.DataParallel(model, device_ids=[0, 1])
+
+
+num_gpus = torch.cuda.device_count()
+device_ids = list(range(num_gpus))
+if num_gpus > 0:
+    base_model = torch.nn.DataParallel(model, device_ids=device_ids)
+else:
+    base_model = model
+
 base_model.to(DEVICE)
