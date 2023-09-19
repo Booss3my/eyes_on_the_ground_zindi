@@ -1,15 +1,21 @@
 import timm
 import torch
 from config import *
+from torch import nn
 
 
-model= timm.create_model(model_name, pretrained=True)
-model_cfg = model.default_cfg
-input_size = model_cfg["input_size"][1]
-in_feats = model.get_classifier().in_features
+class Model(nn.Module):
+    def __init__(self,model_name):
+        super().__init__()
+        self.base = timm.create_model(model_name, pretrained=True)
+        self.base_cfg = model.default_cfg
+        self.fc = nn.Linear(self.base_cfg["num_classes"],1 ,bias=True)
 
+    def forward(self, x):
+        x = self.base(x)
+        return nn.Softmax(self.fc(x))
 
-setattr(model,model_cfg["classifier"],torch.nn.Linear(in_features=in_feats,out_features=1,bias=True))
-
+model = Model(model_name)
+input_size = model.base_cfg["input_size"][1]
 base_model = torch.nn.DataParallel(model, device_ids=[0, 1])
 base_model.to(DEVICE)
