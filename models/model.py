@@ -10,10 +10,10 @@ class Model(nn.Module):
         self.base = timm.create_model(model_name, pretrained=True)
         self.base_cfg = self.base.default_cfg
         self.fc = nn.Linear(self.base_cfg["num_classes"],1 ,bias=True)
-
+        self.softmax = nn.Softmax(1)
     def forward(self, x):
         x = self.base(x)
-        return nn.Softmax(self.fc(x))
+        return self.softmax(self.fc(x))
 
 model = Model(model_name)
 input_size = model.base_cfg["input_size"][1]
