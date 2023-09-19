@@ -13,7 +13,7 @@ class Model(nn.Module):
         self.softmax = nn.Softmax(1)
     def forward(self, x):
         x = self.base(x)
-        return self.softmax(self.fc(x))
+        return self.fc(x)
 
 model = Model(model_name)
 input_size = model.base_cfg["input_size"][1]
