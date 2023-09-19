@@ -10,6 +10,7 @@ from torch import nn
 from tqdm import tqdm
 import wandb
 from utils import EarlyStopper
+from lion_pytorch import Lion
 
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
@@ -28,7 +29,9 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 
 criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
+
+optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
+# optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
