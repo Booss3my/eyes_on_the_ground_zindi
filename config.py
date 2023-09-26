@@ -19,7 +19,6 @@ parser.add_argument('--SCHEDULER_GAMMA', type=float, default=0.3, help="Gamma sc
 parser.add_argument('--MODEL_SAVE_PATH', type=str, default="best_model.ckpt", help="model save path")
 parser.add_argument('--IM_SIZE', type=int, default=240, help="image size")
 parser.add_argument('--N_GRAD_CUMUL', type=int, default=4, help="image size")
-
 #predict only parameters
 parser.add_argument('--model_path', type=str, help="Path to model")  
 parser.add_argument('--submission_path', type=str, help="Path to submission file")

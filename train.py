@@ -10,16 +10,17 @@ from torch import nn
 from tqdm import tqdm
 import wandb
 from utils import EarlyStopper
+import joblib
 from lion_pytorch import Lion
 
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10)
 
-train_im, val_im, train_lab, val_lab =train_test_split(data.filename,data.extent,test_size=0.2,random_state=10,shuffle=True)
+train_im_idx, val_im_idx, train_lab, val_lab =train_test_split(data.index,data.extent,test_size=0.2,random_state=10,shuffle=True)
 
-train_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in train_im]
-val_image_paths =  [os.path.join(IMAGE_PATH,filename) for filename in val_im]
+train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_im_idx]
+val_image_paths =  [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_im_idx]
 
 train_dataset = eog_Dataset(train_image_paths, labels = train_lab.values,size=input_size, tfs=TRAIN_TFS)
 val_dataset = eog_Dataset(val_image_paths, labels = val_lab.values,size=input_size,tfs=VAL_TFS)
@@ -35,9 +36,9 @@ optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
-config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size)
+config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size, model_name=model_name, train_indexes = train_im_idx,val_indexes=val_im_idx)
+joblib.dump(config, "train_config.pkl")
 wandb.init(project="eyes_on_the_ground", config=config)
-
 
 best_val_loss = 1e10
 early_stopper = EarlyStopper(patience=3, min_delta=0.5)
