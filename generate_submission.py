@@ -17,5 +17,5 @@ pred_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in pred_fname
 #averaging predictions only if TTA
 averaged_predictions = predict(model_path,pred_image_paths,averaging_iter=1,tfs=VAL_TFS)
 submission = submission_file.copy()        
-submission["extent"] = (100*abs(averaged_predictions)).type(torch.int).cpu()
+submission["extent"] = averaged_predictions
 submission.to_csv("submission_ob.csv",index=False)
