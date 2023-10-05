@@ -1,7 +1,7 @@
 import pandas as pd 
 from config import *
 import os
-from dataset.data import eog_Dataset
+from dataset.data import EogDataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 from models.model import *
@@ -30,8 +30,8 @@ train_im, val_im, train_lab, val_lab =train_test_split(data.filename,data.extent
 train_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in train_im]
 val_image_paths =  [os.path.join(IMAGE_PATH,filename) for filename in val_im]
 
-train_dataset = eog_Dataset(train_image_paths, labels = train_lab.values,size=input_size, tfs=TRAIN_TFS)
-val_dataset = eog_Dataset(val_image_paths, labels = val_lab.values,size=input_size,tfs=VAL_TFS)
+train_dataset = EogDataset(train_image_paths, labels = train_lab.values,size=input_size, tfs=TRAIN_TFS)
+val_dataset = EogDataset(val_image_paths, labels = val_lab.values,size=input_size,tfs=VAL_TFS)
 
 train_dataloader = DataLoader(train_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
 val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)

@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import * 
 
 
-class eog_Dataset(Dataset):
+class EogDataset(Dataset):
     def __init__(self, image_paths, labels=None, tfs=None, size=224):
         super().__init__()
 
