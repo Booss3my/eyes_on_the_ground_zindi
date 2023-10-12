@@ -5,6 +5,11 @@ from models.model import *
 from tqdm import tqdm
 import torch
 
+import sys
+import os
+R_PATH = os.path.dirname(__file__)
+sys.path.append(R_PATH)
+
 def predict(model_path,pred_image_paths,averaging_iter = 5,tfs = VAL_TFS):
 
     #load model
