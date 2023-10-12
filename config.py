@@ -23,6 +23,7 @@ parser.add_argument('--N_GRAD_CUMUL', type=int, default=4, help="image size")
 parser.add_argument('--model_path', type=str, help="Path to model")  
 parser.add_argument('--submission_path', type=str, help="Path to submission file")
 parser.add_argument('--model_name', type=str,default='efficientnet_b1_pruned', help="Model name")
+parser.add_argument('--prediction_image_paths', type=str, help="Paths to images used in predictions, saved as csv file with filename column")
 
 args = parser.parse_args()
 
@@ -43,6 +44,7 @@ N_GRAD_CUMUL = args.N_GRAD_CUMUL
 model_path = args.model_path
 submission_path = args.submission_path
 model_name = args.model_name
+prediction_image_paths = args.prediction_image_paths
 
 TRAIN_TFS = A.Compose([
     A.Transpose(),

@@ -37,12 +37,7 @@ def predict(model_path,pred_image_paths,averaging_iter = 5,tfs = VAL_TFS):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--image_paths', type=str, help="Paths to images used in predictions, saved as csv file with filename column")
-    
-    args = parser.parse_args()
-    path_file = args.image_paths
-    pred_image_info = pd.read_csv(path_file)
+    pred_image_info = pd.read_csv(prediction_image_paths)
     pred_image_paths = pred_image_info.filename  
     #averaging predictions only if TTA
     averaged_predictions = predict(model_path,pred_image_paths,averaging_iter=1,tfs=VAL_TFS)
