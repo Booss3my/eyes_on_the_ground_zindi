@@ -40,9 +40,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--image_paths', type=str, help="Paths to images used in predictions, saved as csv file with filename column")
     path_file = args.image_paths
-    pred_image_paths = pd.read_csv(path_file)
+    pred_image_info = pd.read_csv(path_file)
+    pred_image_paths = pred_image_info.filename  
     #averaging predictions only if TTA
-    averaged_predictions = predict(model_path,pred_image_paths,averaging_iter=5,tfs=VAL_TFS)
-    pred_image_paths["predicted_extent"] = averaged_predictions
-    pred_image_paths.to_csv("predictions.csv",index=False)  
+    averaged_predictions = predict(model_path,pred_image_paths,averaging_iter=1,tfs=VAL_TFS)
+    pred_image_info["predicted_extent"] = averaged_predictions
+    pred_image_info.to_csv("predictions.csv",index=False)  
     
