@@ -38,7 +38,8 @@ def predict(model_path,pred_image_paths,averaging_iter = 5,tfs = VAL_TFS):
 
 if __name__ == "__main__":
     pred_image_info = pd.read_csv(prediction_image_paths)
-    pred_image_paths = pred_image_info.filename  
+    pred_image_paths = [os.path.join(IMAGE_PATH,file) for file in pred_image_info.filename]
+     
     #averaging predictions only if TTA
     averaged_predictions = predict(model_path,pred_image_paths,averaging_iter=1,tfs=VAL_TFS)
     pred_image_info["predicted_extent"] = averaged_predictions
