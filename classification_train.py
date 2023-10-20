@@ -1,5 +1,5 @@
 import pandas as pd 
-from ..config import *
+from config import *
 import os
 from dataset.data import EogDataset
 from torch.utils.data import DataLoader
