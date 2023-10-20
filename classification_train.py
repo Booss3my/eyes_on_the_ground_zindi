@@ -31,13 +31,12 @@ val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_w
 
 
 criterion = nn.CrossEntropyLoss()
-
 optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
 # optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 wandb.login(key=WANDB_KEY)
-config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size, model_name=model_name, train_indexes = train_im_idx,val_indexes=val_im_idx)
+config = dict(test_name = "classification", learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size, model_name=model_name, train_indexes = train_im_idx,val_indexes=val_im_idx)
 joblib.dump(config, "train_config.pkl")
 wandb.init(project="eyes_on_the_ground", config=config)
 
