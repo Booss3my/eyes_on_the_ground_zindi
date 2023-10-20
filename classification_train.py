@@ -4,6 +4,7 @@ import os
 from dataset.data import EogDataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 from models.model import *
 import torch
 from torch import nn
@@ -58,6 +59,7 @@ for i in range(NUM_EPOCHS):
     
     wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training cross_entropy {running_loss/len(train_dataloader)}')
+    print("training classification report",classification_report(labels,y))
     
     #val
     if i%3==2: 
@@ -77,7 +79,8 @@ for i in range(NUM_EPOCHS):
             break
 
         wandb.log({"val loss": lb_loss, "epoch": i})
+        print(classification_report(labels,y))
         print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
-
+        print("validation classification report",classification_report(labels,y))
 
     scheduler.step()
