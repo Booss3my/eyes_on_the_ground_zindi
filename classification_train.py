@@ -59,7 +59,7 @@ for i in range(NUM_EPOCHS):
     
     wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training cross_entropy {running_loss/len(train_dataloader)}')
-    print("training classification report",classification_report(labels,y))
+    print("training classification report",classification_report(labels.detach().cpu(),y.detach().cpu()))
     
     #val
     if i%3==2: 
@@ -81,6 +81,6 @@ for i in range(NUM_EPOCHS):
         wandb.log({"val loss": lb_loss, "epoch": i})
         print(classification_report(labels,y))
         print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
-        print("validation classification report",classification_report(labels,y))
+        print("validation classification report",classification_report(labels.detach().cpu(),y.detach().cpu()))
 
     scheduler.step()
