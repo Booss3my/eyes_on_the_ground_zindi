@@ -18,7 +18,7 @@ from lion_pytorch import Lion
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10)
-label = (data.extent==0).astype("uint8")
+label = 100*(data.extent==0).astype("uint8")
 
 train_im_idx, val_im_idx, train_lab, val_lab =train_test_split(data.index,label,test_size=0.2,random_state=10,shuffle=True)
 
