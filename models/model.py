@@ -23,7 +23,9 @@ num_gpus = torch.cuda.device_count()
 device_ids = list(range(num_gpus))
 if num_gpus > 0:
     base_model = torch.nn.DataParallel(model, device_ids=device_ids)
+    model_parameters  = base_model.module.parameters()
 else:
     base_model = model
+    model_parameters  = base_model.parameters()
 
 base_model.to(DEVICE)
