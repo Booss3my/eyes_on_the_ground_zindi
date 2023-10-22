@@ -31,7 +31,7 @@ val_dataset = EogDataset(val_image_paths, labels = val_lab.values,size=input_siz
 train_dataloader = DataLoader(train_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
 val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
 
-criterion = nn.BCELoss()
+criterion = nn.BCELoss(reduction='none')
 optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
 # optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
@@ -54,6 +54,10 @@ for i in range(NUM_EPOCHS):
     for j,(images,labels) in tqdm(enumerate(train_dataloader),f'Iterating through {len(train_dataloader)} batches'):   
         y = base_model(images.to(DEVICE)).squeeze()
         loss  = criterion(y,labels.to(DEVICE))
+        print("labels",labels)
+        print("predictions",y)
+        print("loss",criterion(y,labels.to(DEVICE)))
+        break
         (loss/N_GRAD_CUMUL).backward()
         # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
         if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1 or j==len(train_dataloader)-1: 
