@@ -24,9 +24,10 @@ parser.add_argument('--model_path', type=str, help="Path to model")
 parser.add_argument('--submission_path', type=str, help="Path to submission file")
 parser.add_argument('--model_name', type=str,default='efficientnet_b1_pruned', help="Model name")
 parser.add_argument('--prediction_image_paths', type=str, help="Paths to images used in predictions, saved as csv file with filename column")
+parser.add_argument('--wandb_flag', type=bool, default=False, help="Wandb logging flag")
 
 args = parser.parse_args()
-
+wandb_flag = args.wandb_flag
 DATA_ROOT_PATH = args.DATA_ROOT_PATH
 IMAGE_PATH = args.IMAGE_PATH
 ROOT_PATH = args.ROOT_PATH

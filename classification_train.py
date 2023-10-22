@@ -36,10 +36,15 @@ optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
 # optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
-wandb.login(key=WANDB_KEY)
+
+
 config = dict(test_name = "classification", learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, Image_size = input_size, model_name=model_name, train_indexes = train_im_idx,val_indexes=val_im_idx)
 joblib.dump(config, "train_config.pkl")
-wandb.init(project="eyes_on_the_ground", config=config)
+
+
+if wandb_flag:
+    wandb.login(key=WANDB_KEY)
+    wandb.init(project="eyes_on_the_ground", config=config)
 
 best_val_loss = 1e10
 early_stopper = EarlyStopper(patience=3, min_delta=0.5)
@@ -58,8 +63,8 @@ for i in range(NUM_EPOCHS):
             optimizer.zero_grad()
         
         running_loss+=loss
-    
-    wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
+    if wandb_flag:
+        wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training cross_entropy {running_loss/len(train_dataloader)}')
     # print("training classification report",classification_report(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
     
@@ -82,8 +87,8 @@ for i in range(NUM_EPOCHS):
         
         if early_stopper.early_stop(val_running_loss/len(val_dataloader) ):             
             break
-
-        wandb.log({"val loss": lb_loss, "epoch": i})
+        if wandb_flag:
+            wandb.log({"val loss": lb_loss, "epoch": i})
         print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
         # print("validation classification report",classification_report(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
 
