@@ -54,8 +54,7 @@ for i in range(NUM_EPOCHS):
     for j,(images,labels) in tqdm(enumerate(train_dataloader),f'Iterating through {len(train_dataloader)} batches'):   
         y = base_model(images.to(DEVICE)).squeeze().unsqueeze(dim=1)
         probas = torch.cat((y,1-y),dim=1)
-        print(probas)
-        loss  = criterion(probas,labels.to(DEVICE))
+        loss  = criterion(probas,labels.type(torch.float).to(DEVICE))
         (loss/N_GRAD_CUMUL).backward()
         # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
         if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1 or j==len(train_dataloader)-1: 
