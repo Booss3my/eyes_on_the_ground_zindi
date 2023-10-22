@@ -47,7 +47,7 @@ for i in range(NUM_EPOCHS):
     #train
     running_loss = 0    
     for j,(images,labels) in tqdm(enumerate(train_dataloader),f'Iterating through {len(train_dataloader)} batches'):   
-        y = base_model(images.to(DEVICE)).squeeze()
+        y = (base_model(images.to(DEVICE)).squeeze()>0.5).type(torch.uint8)
         loss  = criterion(y,labels.to(DEVICE))
         (loss/N_GRAD_CUMUL).backward()
         # nn.utils.clip_grad_norm_(base_model.module.parameters(), 1.0)
