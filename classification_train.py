@@ -79,7 +79,6 @@ for i in range(NUM_EPOCHS):
             break
 
         wandb.log({"val loss": lb_loss, "epoch": i})
-        print(classification_report(labels,y))
         print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
         print("validation classification report",classification_report(labels.detach().cpu(),(y.detach().cpu()>0.5).type(torch.uint8)))
 
