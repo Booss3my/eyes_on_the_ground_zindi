@@ -59,7 +59,7 @@ for i in range(NUM_EPOCHS):
     
     wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
     print(f'epoch {i}/{NUM_EPOCHS}: Training cross_entropy {running_loss/len(train_dataloader)}')
-    print("training classification report",classification_report(labels.detach().cpu(),(y.detach().cpu()>0.5).type(torch.uint8)))
+    print("training classification report",classification_report(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
     
     #val
     if i%3==2: 
