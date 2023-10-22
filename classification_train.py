@@ -65,7 +65,7 @@ for i in range(NUM_EPOCHS):
     precision,recall,accuracy = precision_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)),recall_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)),accuracy_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8))
     
     if wandb_flag:
-        wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i})
+        wandb.log({"train loss": running_loss/len(train_dataloader), "epoch": i, "train precision" : precision, "train recall": recall, "train acc":accuracy})
     print(f'epoch {i}/{NUM_EPOCHS}: Training cross_entropy {running_loss/len(train_dataloader)} -- precision {precision} -- recall {recall} --acc {accuracy} ')
     # print("training classification report",classification_report(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
     
@@ -88,9 +88,15 @@ for i in range(NUM_EPOCHS):
         
         if early_stopper.early_stop(val_running_loss/len(val_dataloader) ):             
             break
+    
+
+
+        precision,recall,accuracy = precision_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)),recall_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)),accuracy_score(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8))
         if wandb_flag:
-            wandb.log({"val loss": lb_loss, "epoch": i})
-        print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
-        # print("validation classification report",precision_recall_fscore_support(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
+            wandb.log({"val loss": lb_loss, "epoch": i ,"val precision" : precision, "val recall": recall, "val acc":accuracy})
+    
+        print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}  -- precision {precision} -- recall {recall} --acc {accuracy} ')
+        
+        
 
     scheduler.step()
