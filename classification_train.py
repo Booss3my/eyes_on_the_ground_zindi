@@ -66,7 +66,9 @@ for i in range(NUM_EPOCHS):
         val_running_loss=0
         for images,labels in tqdm(val_dataloader,f'Iterating through {len(val_dataloader)} batches'):
             with torch.no_grad():
+                 
                  y = base_model(images.to(DEVICE)).squeeze()
+                 print("val perdiction:",y)
                  loss  = criterion(y,labels.to(DEVICE))
                  val_running_loss+=loss
         
