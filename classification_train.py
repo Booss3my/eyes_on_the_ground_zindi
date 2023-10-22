@@ -77,7 +77,7 @@ for i in range(NUM_EPOCHS):
                  
                  y = base_model(images.to(DEVICE)).squeeze()
 
-                 print("val perdiction:",y)
+                 
                  loss  = criterion(y,labels.to(DEVICE))
                  val_running_loss+=loss
         
