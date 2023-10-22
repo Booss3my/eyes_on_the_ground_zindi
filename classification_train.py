@@ -4,7 +4,7 @@ import os
 from dataset.data import EogDataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
+from sklearn.metrics import precision_recall_fscore_support
 from models.model import *
 import torch
 from torch import nn
@@ -88,6 +88,6 @@ for i in range(NUM_EPOCHS):
         if wandb_flag:
             wandb.log({"val loss": lb_loss, "epoch": i})
         print(f'epoch {i}/{NUM_EPOCHS}: Validation cross entropy {lb_loss}')
-        print("validation classification report",classification_report(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
+        print("validation classification report",precision_recall_fscore_support(labels.detach().cpu().type(torch.uint8),(y.detach().cpu()>0.5).type(torch.uint8)))
 
     scheduler.step()
