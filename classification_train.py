@@ -32,8 +32,8 @@ train_dataloader = DataLoader(train_dataset,batch_size=BATCH_SIZE,shuffle=True,n
 val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
 
 criterion = nn.BCELoss()
-optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
-# optimizer = torch.optim.Adam(lr=LR,params=base_model.module.parameters())
+# optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
+optimizer = torch.optim.Adam(lr=LR,params=model_parameters)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=SCHEDULER_STEP, gamma=SCHEDULER_GAMMA)
 
 
