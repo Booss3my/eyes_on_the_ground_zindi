@@ -6,7 +6,6 @@ import numpy as np
 from PIL import Image
 import torch
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from config import * 
 
 
 class EogDataset(Dataset):
