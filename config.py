@@ -2,6 +2,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import argparse
 import torch 
+from utils import seed_everything
 
 parser = argparse.ArgumentParser(description="Configurations for my project")
 
@@ -62,5 +63,6 @@ VAL_TFS = A.Compose([
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+seed_everything(10)
 
  
