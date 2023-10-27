@@ -32,7 +32,7 @@ def predict(model_path,pred_image_paths,averaging_iter = 5,tfs = VAL_TFS):
 def Predict_(base_model,input_size,submission_df,text):
     data  = pd.read_csv("/kaggle/input/subm-file/Test.csv")
     pred_fnames = submission_df.merge(data, how="inner", on="ID").filename
-    pred_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in pred_fnames]
+    pred_image_paths = [os.path.join(TEST_IMAGE_PATH,filename) for filename in pred_fnames]
     pred_dataset = EogDataset(pred_image_paths,size=input_size,tfs=VAL_TFS)
     pred_dataloader = DataLoader(pred_dataset,batch_size=BATCH_SIZE,shuffle=False,num_workers=NUM_DL_WORKERS)
     prediction = WithModelPredict(base_model,pred_dataloader)       

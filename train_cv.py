@@ -27,8 +27,8 @@ test_prediction_stack = []
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     base_model,model_parameters,input_size = init_model()
-    train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_index]
-    val_image_paths =  [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_index]
+    train_image_paths = [os.path.join(TRAIN_IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_index]
+    val_image_paths =  [os.path.join(TRAIN_IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_index]
 
     train_dataset = EogDataset(train_image_paths, labels = data.extent[train_index].values,size=input_size, tfs=TRAIN_TFS)
     val_dataset = EogDataset(val_image_paths, labels =  data.extent[val_index].values,size=input_size,tfs=VAL_TFS)

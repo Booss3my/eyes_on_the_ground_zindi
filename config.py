@@ -7,7 +7,8 @@ from utils import seed_everything
 parser = argparse.ArgumentParser(description="Configurations for my project")
 
 parser.add_argument('--DATA_ROOT_PATH', type=str, default=r"C:\Users\oussa\OneDrive\Desktop\eyes_on_the_ground_zindi\eog_dataset", help="The root path where your data is stored")
-parser.add_argument('--IMAGE_PATH', type=str, default=r"C:\Users\oussa\OneDrive\Desktop\eyes_on_the_ground_zindi\eog_dataset\images", help="The path to the directory where your images are stored")
+parser.add_argument('--TRAIN_IMAGE_PATH', type=str, default=r"C:\Users\oussa\OneDrive\Desktop\eyes_on_the_ground_zindi\eog_dataset\images", help="The path to the directory where your train images are stored")
+parser.add_argument('--TEST_IMAGE_PATH', type=str, default=r"C:\Users\oussa\OneDrive\Desktop\eyes_on_the_ground_zindi\eog_dataset\images", help="The path to the directory where your test images are stored")
 parser.add_argument('--ROOT_PATH', type=str, default=r"C:\Users\oussa\OneDrive\Desktop\eyes_on_the_ground_zindi", help="The main root path for the project")
 parser.add_argument('--BATCH_SIZE', type=int, default=32, help="The batch size to be used during training")
 parser.add_argument('--LR', type=float, default=1e-3, help="The learning rate to be used during training")
@@ -30,7 +31,8 @@ parser.add_argument('--wandb_flag', type=bool, default=False, help="Wandb loggin
 args = parser.parse_args()
 wandb_flag = args.wandb_flag
 DATA_ROOT_PATH = args.DATA_ROOT_PATH
-IMAGE_PATH = args.IMAGE_PATH
+TRAIN_IMAGE_PATH = args.TRAIN_IMAGE_PATH
+TEST_IMAGE_PATH = args.TEST_IMAGE_PATH
 ROOT_PATH = args.ROOT_PATH
 BATCH_SIZE = args.BATCH_SIZE
 LR = args.LR
