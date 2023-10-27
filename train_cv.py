@@ -36,6 +36,6 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
 
     loss=one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
-
+    print(loss)
 
 
