@@ -16,8 +16,10 @@ class Model(nn.Module):
         return self.sigmoid(self.fc(x))
 
 
-def init_model():
+def init_model(state_dict = None):
     model = Model(model_name)
+    if state_dict is not None:
+        model.load_state_dict(state_dict)
     input_size = model.base_cfg["input_size"][1]
     num_gpus = torch.cuda.device_count()
     device_ids = list(range(num_gpus))

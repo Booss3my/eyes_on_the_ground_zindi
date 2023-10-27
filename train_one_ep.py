@@ -24,3 +24,11 @@ def one_epoch(base_model, dataloader, criterion, optimizer,type="train"):
         
     lb_loss = 100*running_loss/len(dataloader) 
     return lb_loss
+
+
+def WithModelPredict(base_model,dataloader):
+    test_output=torch.tensor([]).to(DEVICE)
+    for images in tqdm(dataloader,f'Iterating through {len(dataloader)} batches'):
+            with torch.no_grad():
+                test_output = torch.cat((test_output,base_model.eval()(images.to(DEVICE)).squeeze()))
+    return (100*abs(test_output)).type(torch.int).cpu()

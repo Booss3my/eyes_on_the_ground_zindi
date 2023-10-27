@@ -8,18 +8,22 @@ from models.model import *
 from torch import nn
 from lion_pytorch import Lion
 from train_one_ep import one_epoch
+import wandb
+from predict import Predict_
+
 
 seed_everything(SEED)
 
 n_splits = 5
-average_val_losses = 0
+average_losses = {"cv_train_loss":0, "cv_val_loss":0}
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
+submission_df= pd.read_csv(os.path.join(DATA_ROOT_PATH,"SampleSubmission.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
 skf = StratifiedKFold(n_splits=n_splits,shuffle=True,random_state=SEED)
+test_prediction_stack = []
 
-
-
+#training
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     base_model,model_parameters,input_size = init_model()
@@ -43,9 +47,22 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
             val_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="validation")
             print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
         if j+1==NUM_EPOCHS:
-            average_val_losses+=val_loss
-print(f"######## Average fold validation {average_val_losses/n_splits}#####")
+            average_losses["cv_val_loss"]+=val_loss/n_splits
+            average_losses["cv_train_loss"]+=train_loss/n_splits
+    #predict for test
+    Predict_(base_model,input_size,submission_df,f"fold_{i+1}")
         
+print(f"######## train loss {average_losses['cv_train_loss']} -- validation loss {average_losses['cv_val_loss']}#####")
+
+#generate submission
+submission_df.to_csv("predictions.csv")
+
+#logging
+if wandb_flag:
+    wandb.login(key=WANDB_KEY)
+    config = dict(learning_rate=LR, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, frac_data_used=SAMPLE_FRAC, model_name=model_name)
+    wandb.init(project="eyes_on_the_ground", config=config)
+    wandb.log(average_losses)
     
 
 
