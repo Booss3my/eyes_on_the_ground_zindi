@@ -23,6 +23,7 @@ data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop
 skf = StratifiedKFold(n_splits=n_splits,shuffle=True)
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
+    base_model,model_parameters = init_model()
     train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_index]
     val_image_paths =  [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_index]
 
@@ -33,7 +34,7 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
     
     criterion = nn.MSELoss()
-    optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
+    optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
     val_losses = []
     for j in range(NUM_EPOCHS):
         train_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
