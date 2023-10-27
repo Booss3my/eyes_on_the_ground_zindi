@@ -5,12 +5,7 @@ from dataset.data import EogDataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import StratifiedKFold
 from models.model import *
-import torch
 from torch import nn
-from tqdm import tqdm
-import wandb
-from utils import EarlyStopper
-import joblib
 from lion_pytorch import Lion
 from train_one_ep import one_epoch
 
@@ -35,7 +30,11 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     criterion = nn.MSELoss()
     optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
-    val_losses = []
+    average_val_losses = 0
+
+
+
+    print(f"######## Fold {i+1}/{n_splits}#####")
     for j in range(NUM_EPOCHS):
         train_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
         print(f"Epoch {j+1}/{NUM_EPOCHS} --- Training loss :{train_loss}")
@@ -43,9 +42,9 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
             val_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="validation")
             print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
         if j+1==NUM_EPOCHS:
-            val_losses.append(val_loss)
+            average_val_losses+=val_loss
 
-    
+print(f"######## Average fold validation {average_val_losses/n_splits}#####")
         
     
 
