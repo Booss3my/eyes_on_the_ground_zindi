@@ -16,7 +16,7 @@ average_val_losses = 0
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
-skf = StratifiedKFold(n_splits=n_splits,shuffle=True)
+skf = StratifiedKFold(n_splits=n_splits,shuffle=True,random_state=SEED)
 
 
 
