@@ -28,4 +28,5 @@ else:
     base_model = model
     model_parameters  = base_model.parameters()
 
+
 base_model.to(DEVICE)

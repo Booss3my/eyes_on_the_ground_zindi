@@ -1,7 +1,7 @@
 from config import *
 import torch
 from tqdm import tqdm
-
+from models.model import *
 def one_epoch(base_model, dataloader, criterion, optimizer,type="train"):
     running_loss=0
     if type=="train":
