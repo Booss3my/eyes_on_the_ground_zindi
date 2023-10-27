@@ -9,13 +9,16 @@ from torch import nn
 from lion_pytorch import Lion
 from train_one_ep import one_epoch
 
+seed_everything(SEED)
+
 n_splits = 5
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
-
-
 skf = StratifiedKFold(n_splits=n_splits,shuffle=True)
+
+
+
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     base_model,model_parameters,input_size = init_model()
@@ -43,7 +46,7 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
             print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
         if j+1==NUM_EPOCHS:
             average_val_losses+=val_loss
-
+    print(average_val_losses)
 print(f"######## Average fold validation {average_val_losses/n_splits}#####")
         
     

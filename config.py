@@ -63,6 +63,6 @@ VAL_TFS = A.Compose([
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-seed_everything(10)
+SEED=10
 
  
