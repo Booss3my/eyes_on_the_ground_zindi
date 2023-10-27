@@ -38,7 +38,7 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     for j in range(NUM_EPOCHS):
         train_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
         print(f"Epoch {j+1}/{NUM_EPOCHS} --- Training loss :{train_loss}")
-        if j%5==4 | j+1==NUM_EPOCHS:
+        if j%5==4 or j+1==NUM_EPOCHS:
             val_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="validation")
             print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
         if j+1==NUM_EPOCHS:
