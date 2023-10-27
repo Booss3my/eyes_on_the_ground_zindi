@@ -33,7 +33,7 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
     
     criterion = nn.MSELoss()
-    optimizer = Lion(list(model_parameters), lr=LR, weight_decay=1e-2)
+    optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
 
     loss=one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
 
