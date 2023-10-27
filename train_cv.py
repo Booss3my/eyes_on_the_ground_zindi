@@ -19,6 +19,9 @@ data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
 
+print(model_parameters)
+
+
 skf = StratifiedKFold(n_splits=5,shuffle=True)
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
