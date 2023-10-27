@@ -20,6 +20,8 @@ mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10)
 label = 100*(data.extent==0).astype("uint8")
 
+base_model,model_parameters,input_size = init_model()
+
 train_im_idx, val_im_idx, train_lab, val_lab =train_test_split(data.index,label,test_size=0.2,random_state=10,shuffle=True)
 
 train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_im_idx]

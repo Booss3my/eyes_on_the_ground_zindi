@@ -18,7 +18,7 @@ class Model(nn.Module):
 
 def init_model():
     model = Model(model_name)
-    # input_size = model.base_cfg["input_size"][1]
+    input_size = model.base_cfg["input_size"][1]
     num_gpus = torch.cuda.device_count()
     device_ids = list(range(num_gpus))
     if num_gpus > 0:
@@ -28,4 +28,4 @@ def init_model():
         base_model = model
         model_parameters  = base_model.parameters()
     base_model.to(DEVICE)
-    return base_model,model_parameters
+    return base_model,model_parameters,input_size

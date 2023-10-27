@@ -23,7 +23,7 @@ data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop
 skf = StratifiedKFold(n_splits=n_splits,shuffle=True)
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
-    base_model,model_parameters = init_model()
+    base_model,model_parameters,input_size = init_model()
     train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_index]
     val_image_paths =  [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_index]
 
