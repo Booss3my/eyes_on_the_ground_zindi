@@ -19,8 +19,6 @@ data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
 
-print(next(iter(model_parameters)))
-
 
 skf = StratifiedKFold(n_splits=5,shuffle=True)
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
@@ -35,7 +33,7 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     val_dataloader = DataLoader(val_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=NUM_DL_WORKERS)
     
     criterion = nn.MSELoss()
-    optimizer = Lion(model_parameters, lr=LR, weight_decay=1e-2)
+    optimizer = Lion(list(model_parameters), lr=LR, weight_decay=1e-2)
 
     loss=one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
 
