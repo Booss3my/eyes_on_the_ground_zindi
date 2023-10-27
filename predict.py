@@ -30,7 +30,7 @@ def predict(model_path,pred_image_paths,averaging_iter = 5,tfs = VAL_TFS):
     return (100*abs(averaged_output)).type(torch.int).cpu()
 
 def Predict_(base_model,input_size,submission_df,text):
-    data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"Test.csv"))
+    data  = pd.read_csv("/kaggle/input/subm-file/Test.csv")
     pred_fnames = submission_df.merge(data, how="inner", on="ID").filename
     pred_image_paths = [os.path.join(IMAGE_PATH,filename) for filename in pred_fnames]
     pred_dataset = EogDataset(pred_image_paths,size=input_size,tfs=VAL_TFS)
