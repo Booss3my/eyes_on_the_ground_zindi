@@ -14,13 +14,13 @@ import joblib
 from lion_pytorch import Lion
 from train_one_ep import one_epoch
 
-
+n_splits = 5
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
 
 
-skf = StratifiedKFold(n_splits=5,shuffle=True)
+skf = StratifiedKFold(n_splits=n_splits,shuffle=True)
 for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_index]
@@ -34,8 +34,18 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     criterion = nn.MSELoss()
     optimizer = Lion(base_model.module.parameters(), lr=LR, weight_decay=1e-2)
+    val_losses = []
+    for j in range(NUM_EPOCHS):
+        train_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
+        print(f"Epoch {j+1}/{NUM_EPOCHS} --- Training loss :{train_loss}")
+        if j%5==4 | j+1==NUM_EPOCHS:
+            val_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="validation")
+            print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
+        if j+1==NUM_EPOCHS:
+            val_losses.append(val_loss)
 
-    loss=one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
-    print(loss)
+    
+        
+    
 
 
