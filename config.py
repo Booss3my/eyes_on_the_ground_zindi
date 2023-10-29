@@ -27,7 +27,6 @@ parser.add_argument('--submission_path', type=str, help="Path to submission file
 parser.add_argument('--model_name', type=str,default='efficientnet_b1_pruned', help="Model name")
 parser.add_argument('--prediction_image_paths', type=str, help="Paths to images used in predictions, saved as csv file with filename column")
 parser.add_argument('--wandb_flag', type=bool, default=False, help="Wandb logging flag")
-parser.add_argument('--only_dr', type=bool, default=False, help="keep only Drought damage flag")
 
 args = parser.parse_args()
 wandb_flag = args.wandb_flag
@@ -50,7 +49,7 @@ model_path = args.model_path
 submission_path = args.submission_path
 model_name = args.model_name
 prediction_image_paths = args.prediction_image_paths
-only_dr = args.only_dr
+
 TRAIN_TFS = A.Compose([
     A.Transpose(),
     A.HorizontalFlip(p=0.5),
