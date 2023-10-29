@@ -17,6 +17,9 @@ seed_everything(SEED)
 n_splits = 3
 average_losses = {"cv_train_loss":0, "cv_val_loss":0}
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
+if only_dr:
+    data = data.loc[data["damage"].isin(["G","DR"])].reset_index(drop=True)
+
 submission_df= pd.read_csv("/kaggle/input/subm-file/SampleSubmission.csv")  #too late to parametrize -- to do ^^
 mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
 data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10).reset_index(drop=True)
