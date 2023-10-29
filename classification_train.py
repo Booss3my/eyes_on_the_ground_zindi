@@ -3,39 +3,6 @@ from config import *
 import os
 from dataset.data import EogDataset
 from torch.utils.data import DataLoader
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import recall_score,precision_score,accuracy_score
-from models.model import *
-import torch
-from torch import nn
-from tqdm import tqdm
-import wandb
-from utils import EarlyStopper
-import joblib
-from lion_pytorch import Lion
-
-
-data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
-mask = data['filename'].apply(lambda x: len(x.split(" ")) <= 1)
-data = data.loc[mask].sample(frac=SAMPLE_FRAC,random_state= 10)
-label = 100*(data.extent==0).astype("uint8")
-
-base_model,model_parameters,input_size = init_model()
-
-train_im_idx, val_im_idx, train_lab, val_lab =train_test_split(data.index,label,test_size=0.2,random_state=10,shuffle=True)
-
-train_image_paths = [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in train_im_idx]
-val_image_paths =  [os.path.join(IMAGE_PATH,data.filename[filename_idx]) for filename_idx in val_im_idx]
-
-train_dataset = EogDataset(train_image_paths, labels = train_lab.values,size=input_size, tfs=TRAIN_TFS)
-val_dataset = EogDataset(val_image_paths, labels = val_lab.values,size=input_size,tfs=VAL_TFS)
-
-
-import pandas as pd 
-from config import *
-import os
-from dataset.data import EogDataset
-from torch.utils.data import DataLoader
 from sklearn.model_selection import StratifiedKFold
 from models.model import *
 from torch import nn
