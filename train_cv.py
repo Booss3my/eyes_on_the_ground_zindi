@@ -14,7 +14,7 @@ from predict import Predict_
 
 seed_everything(SEED)
 
-n_splits = 5
+n_splits = 3
 average_losses = {"cv_train_loss":0, "cv_val_loss":0}
 data  = pd.read_csv(os.path.join(DATA_ROOT_PATH,"train.csv"))
 submission_df= pd.read_csv("/kaggle/input/subm-file/SampleSubmission.csv")  #too late to parametrize -- to do ^^
