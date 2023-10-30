@@ -26,7 +26,7 @@ def one_epoch_classif(base_model, dataloader, criterion, optimizer,type="train")
         for images,labels in tqdm(dataloader,f'Iterating through {len(dataloader)} batches'):
             with torch.no_grad():
                 y = base_model(images.to(DEVICE)).squeeze()
-                loss  = criterion(y,100*labels.to(DEVICE))
+                loss  = criterion(y,(100*labels).to(DEVICE))
                 running_loss+=loss
         
     lb_loss = running_loss/len(dataloader) 
