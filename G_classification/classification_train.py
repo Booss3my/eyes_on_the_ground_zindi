@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import sys
 R_path = os.path.dirname(os.path.dirname(__file__))
-print(R_path)
 sys.path.append(R_path)
 
 from config import *
