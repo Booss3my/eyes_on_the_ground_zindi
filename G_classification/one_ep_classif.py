@@ -38,7 +38,7 @@ def WithModelPredictClass(base_model,dataloader):
     for images in tqdm(dataloader,f'Iterating through {len(dataloader)} batches'):
             with torch.no_grad():
                 test_output = torch.cat((test_output,base_model.eval()(images.to(DEVICE)).squeeze()))
-    return (abs(test_output)).type(torch.int).cpu()
+    return test_output.cpu()
 
 def Predict_(base_model,input_size,submission_df,text):
     data  = pd.read_csv("/kaggle/input/subm-file/Test.csv")
