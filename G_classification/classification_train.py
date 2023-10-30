@@ -7,9 +7,8 @@ from sklearn.model_selection import StratifiedKFold
 from models.model import *
 from torch import nn
 from lion_pytorch import Lion
-from train_one_ep import one_epoch
 import wandb
-from predict import Predict_
+from G_classification.one_ep_classif import Predict_,one_epoch_classif
 
 
 seed_everything(SEED)
@@ -42,10 +41,10 @@ for i, (train_index, val_index) in enumerate(skf.split(data.index,data.extent)):
     
     print(f"######## Fold {i+1}/{n_splits}#####")
     for j in range(NUM_EPOCHS):
-        train_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="train")
+        train_loss = one_epoch_classif(base_model, train_dataloader, criterion, optimizer,type="train")
         print(f"Epoch {j+1}/{NUM_EPOCHS} --- Training loss :{train_loss}")
         if j%5==4 or j+1==NUM_EPOCHS:
-            val_loss = one_epoch(base_model, train_dataloader, criterion, optimizer,type="validation")
+            val_loss = one_epoch_classif(base_model, train_dataloader, criterion, optimizer,type="validation")
             print(f"Epoch {j+1}/{NUM_EPOCHS} --- Validation loss :{val_loss}")
         if j+1==NUM_EPOCHS:
             average_losses["cv_val_loss"]+=val_loss/n_splits
