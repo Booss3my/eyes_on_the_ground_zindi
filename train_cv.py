@@ -10,7 +10,7 @@ from lion_pytorch import Lion
 from train_one_ep import one_epoch
 import wandb
 from predict import Predict_
-
+from utils import seed_everything
 
 seed_everything(SEED)
 

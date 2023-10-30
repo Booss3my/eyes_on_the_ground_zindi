@@ -2,7 +2,6 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import argparse
 import torch 
-from utils import seed_everything
 
 parser = argparse.ArgumentParser(description="Configurations for my project")
 

@@ -1,6 +1,11 @@
 import pandas as pd 
-from config import *
 import os
+import sys
+R_path = os.path.dirname(os.path.dirname(__file__))
+print(R_path)
+sys.path.append()
+
+from config import *
 from dataset.data import EogDataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import StratifiedKFold
@@ -9,7 +14,7 @@ from torch import nn
 from lion_pytorch import Lion
 import wandb
 from G_classification.one_ep_classif import Predict_,one_epoch_classif
-
+from utils import seed_everything
 
 seed_everything(SEED)
 n_splits = 3
