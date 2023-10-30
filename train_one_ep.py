@@ -31,4 +31,4 @@ def WithModelPredict(base_model,dataloader):
     for images in tqdm(dataloader,f'Iterating through {len(dataloader)} batches'):
             with torch.no_grad():
                 test_output = torch.cat((test_output,base_model.eval()(images.to(DEVICE)).squeeze()))
-    return (100*abs(test_output)).type(torch.int).cpu()
+    return 100*(abs(test_output)).type(torch.int).cpu()
