@@ -13,8 +13,9 @@ def one_epoch_classif(base_model, dataloader, criterion, optimizer,type="train")
     if type=="train":
         for j,(images,labels) in tqdm(enumerate(dataloader),f'Iterating through {len(dataloader)} batches'):   
             y = base_model(images.to(DEVICE)).squeeze()
+            labels =(100*labels).type(torch.uint8).to(DEVICE)
             print(labels)
-            loss  = criterion(y,labels.to(DEVICE))
+            loss  = criterion(y,labels)
             (loss/N_GRAD_CUMUL).backward()
 
             if j%N_GRAD_CUMUL==N_GRAD_CUMUL-1 or j==len(dataloader)-1: 
