@@ -15,17 +15,19 @@ class Model(nn.Module):
         x = self.base(x)
         return self.sigmoid(self.fc(x))
 
-model = Model(model_name)
-input_size = model.base_cfg["input_size"][1]
 
-
-num_gpus = torch.cuda.device_count()
-device_ids = list(range(num_gpus))
-if num_gpus > 0:
-    base_model = torch.nn.DataParallel(model, device_ids=device_ids)
-    model_parameters  = base_model.module.parameters()
-else:
-    base_model = model
-    model_parameters  = base_model.parameters()
-
-base_model.to(DEVICE)
+def init_model(state_dict = None):
+    model = Model(model_name)
+    if state_dict is not None:
+        model.load_state_dict(state_dict)
+    input_size = model.base_cfg["input_size"][1]
+    num_gpus = torch.cuda.device_count()
+    device_ids = list(range(num_gpus))
+    if num_gpus > 0:
+        base_model = torch.nn.DataParallel(model, device_ids=device_ids)
+        model_parameters  = base_model.module.parameters()
+    else:
+        base_model = model
+        model_parameters  = base_model.parameters()
+    base_model.to(DEVICE)
+    return base_model,model_parameters,input_size
