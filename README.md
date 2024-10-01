@@ -1,9 +1,7 @@
 # Eyes On The Ground Challenge
 
 # Context
-This project contains the code used to submit for the Eyes on the Ground competition on Zindi. Unfortunately, I was disqualified due to a change in rules that I wasn't aware of and didn't take into consideration, despite being ranked 8th on the public leaderboard.
-
-Nevertheless, the competition was very enjoyable.
+This project contains the code used to submit for the Eyes on the Ground competition on Zindi.
 
 In this competition, the objective was to predict the extent of damage from crop images. The damage can be caused by drought, flooding, and the stage of growth can vary between the images.
 
